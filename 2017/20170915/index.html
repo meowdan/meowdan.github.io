@@ -84,12 +84,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="超时空蛋蛋">
-<meta property="og:url" content="http://blog.meowdan.com/index.html">
+<meta name="description" content="GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。
+没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HP GEN8 NAS搭建日记">
+<meta property="og:url" content="http://blog.meowdan.com/2017/20170915/index.html">
 <meta property="og:site_name" content="超时空蛋蛋">
+<meta property="og:description" content="GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。
+没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就">
+<meta property="og:updated_time" content="2017-09-15T03:33:42.504Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="超时空蛋蛋">
+<meta name="twitter:title" content="HP GEN8 NAS搭建日记">
+<meta name="twitter:description" content="GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。
+没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就">
 
 
 
@@ -110,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="http://blog.meowdan.com/"/>
+  <link rel="canonical" href="http://blog.meowdan.com/2017/20170915/"/>
 
-  <title> 超时空蛋蛋 </title>
+  <title> HP GEN8 NAS搭建日记 | 超时空蛋蛋 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -142,9 +149,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -221,9 +226,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -243,10 +248,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/20170915/" itemprop="url">
-                  HP GEN8 NAS搭建日记
-                </a>
+                HP GEN8 NAS搭建日记
               
             
           </h1>
@@ -293,9 +295,7 @@
       
 
       
-        
-          
-            <pre><code>GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。
+        <pre><code>GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。
 没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就是不能选择用哪个硬盘引导，只能是默认的SATA1-SATA5顺序寻找硬盘引导，而SSD只能装在SATA5，存储盘只能装在SATA1-4，所以系统会去找那块红盘上的系统，红盘没系统的话就进不去，真的好傻逼。没办法，网上搜了下我按照 https://www.chiphell.com/thread-1196090-1-1.html 这里的方法用u盘做了个引导了。（64G的U盘废在那了）
 
 &lt;!-- more --&gt;
@@ -329,16 +329,20 @@ bt-seed-unverified=true
 </code></pre><p>以上是我aria2的配置文件，由于映射到公网，所以rpc-secret是必须的，然后通过本地的webui-aria2文件配置ip和secret信息就可以连接上了，还有一种方法就是把webui-aria2用nginx或者apache2也搭到ubuntu里去，然后通过frp用域名+端口号就能打开了，但是我nginx或者apache2都写的不好，所以只能这么用了。</p>
 <h2 id="4：nextcloud"><a href="#4：nextcloud" class="headerlink" title="4：nextcloud"></a>4：nextcloud</h2><p>试过seafile，不过功能来说nextcloud强太多了，seafile太简易了。安装的时候也踩过很多坑，试过snap一条命令这种的安装，就一条apt-get snap install nextcloud，什么nginx，php啊，sql啊不存在的，一条命令搞定一切，但是装完问题太多了，然后也试过docker，这东西太难了，看不懂，所以我最后还是老老实实一步一步的的sql，php，apache2的搭起来了，借鉴的最多的应该是这个教程吧 <a href="https://www.getnas.com/2017/07/2655.html" target="_blank" rel="external">https://www.getnas.com/2017/07/2655.html</a><br>不过ssl我用的不是那里的，我是在腾讯云申请的ssl（不知道会不会有安全问题）<br>装完也不知道这东西对我来说到底有啥用。。。。。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -346,328 +350,32 @@ bt-seed-unverified=true
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/0104/" rel="next" title="为什么一到年底大家都在写总结啊">
+                <i class="fa fa-chevron-left"></i> 为什么一到年底大家都在写总结啊
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/0104/" itemprop="url">
-                  为什么一到年底大家都在写总结啊
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2017-01-04T13:43:48+08:00" content="2017-01-04">
-              2017-01-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/0104/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/0104/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>—为什么一到年底大家都在写总结啊<br>—可是明明已经17年初了啊<br>— = = 那么，没办法啊，拖延症患者，所以这只是一个拖延症患者的年终总结<br>可是，我还是不懂啊，为什么一到年底大家都在写总结啊。。。（不懂你还写。<br> 不过，你看看你blog这么久没更新了，都要长草了，好不容易能整出点幺蛾子，能找点东西写，也算是为这悲剧的一年画个句号吧。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/0104/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/0914/" itemprop="url">
-                  我的破产日记之守望先锋篇
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-15T14:32:36+08:00" content="2016-09-15">
-              2016-09-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/0914/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/0914/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>首先，我不是暴雪的粉丝，我没玩过魔兽世界，对暴雪没有什么情怀可言，我只是一名LOL青铜5玩家而已，然后，大概是因为几个月前暴雪刚出这游戏的时候，推特满TL都是这游戏了，然后我就没管住这手，然后我就买了，然后,就开始了我的破产之旅了。。<br>没错，我就是一只跟风狗。。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/0914/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/0823/" itemprop="url">
-                  搭博客已经那么累了，为什么还要写博客
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-08-23T14:32:36+08:00" content="2016-08-23">
-              2016-08-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/0823/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/0823/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="写在前面："><a href="#写在前面：" class="headerlink" title="写在前面："></a>写在前面：</h2><p>没事不要买域名！没事不要买域名！没事不要买域名！！！！！！<br>买了域名，你又要买VPS，买了VPS，还得花力气把他搭起来，终于用尽了全部力气把网站搭起来了，还得花空心思去更新，然后终于有一天你的blog有点内容了看起来像点样子了，然后突然有一天VPS到期你忘了续费，duang！你的数据你的情感吐槽你对你前女神的表白你朋友给你的留言全他喵没了，然后就会有一种想狗带的心~！！！ 所以没事别买什么域名，没点软用的东西。有那个钱还不如去买两本书呢，虽然买了也不会看，不过买书放书架上总比买域名然后一堆后续无尽的折腾绞劲脑汁的更新好。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/0823/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -675,6 +383,17 @@ bt-seed-unverified=true
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -694,8 +413,17 @@ bt-seed-unverified=true
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -769,6 +497,17 @@ bt-seed-unverified=true
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-系统的选择-winserver2016-hyper-v-ubuntu-server"><span class="nav-number">1.</span> <span class="nav-text">1 系统的选择 winserver2016+hyper-v+ubuntu server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-frp"><span class="nav-number">2.</span> <span class="nav-text">2.frp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3：aria2"><span class="nav-number">3.</span> <span class="nav-text">3：aria2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4：nextcloud"><span class="nav-number">4.</span> <span class="nav-text">4：nextcloud</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -872,6 +611,10 @@ bt-seed-unverified=true
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
@@ -888,9 +631,9 @@ bt-seed-unverified=true
 
     <script type="text/javascript">
       var disqus_shortname = 'meowdan';
-      var disqus_identifier = 'index.html';
-      var disqus_title = "";
-      var disqus_url = '';
+      var disqus_identifier = '2017/20170915/';
+      var disqus_title = "HP GEN8 NAS搭建日记";
+      var disqus_url = 'http://blog.meowdan.com/2017/20170915/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
@@ -901,6 +644,8 @@ bt-seed-unverified=true
       }
 
       run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
       
     </script>
   
