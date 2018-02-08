@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="超时空蛋蛋">
 <meta property="og:description" content="GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就是">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-09-15T05:00:16.000Z">
+<meta property="og:updated_time" content="2018-02-08T07:48:25.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HP GEN8 NAS搭建日记">
 <meta name="twitter:description" content="GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就是">
@@ -258,8 +258,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2018-02-05T14:05:00+08:00" content="2018-02-05">
-              2018-02-05
+            <time itemprop="dateCreated" datetime="2018-02-08T15:48:25+08:00" content="2018-02-08">
+              2018-02-08
             </time>
           </span>
 
@@ -323,7 +323,7 @@ seed-ratio=0.1
 bt-save-metadata=false
 bt-seed-unverified=true
 </code></pre><p>以上是我aria2的配置文件，由于映射到公网，所以rpc-secret是必须的，然后通过本地的webui-aria2文件配置ip和secret信息就可以连接上了，还有一种方法就是把webui-aria2用nginx或者apache2也搭到ubuntu里去，然后通过frp用域名+端口号就能打开了，但是我nginx或者apache2都写的不好，所以只能这么用了。</p>
-<h2 id="4：nextcloud"><a href="#4：nextcloud" class="headerlink" title="4：nextcloud"></a>4：nextcloud</h2><p>试过seafile，不过功能来说nextcloud强太多了，seafile太简易了。安装的时候也踩过很多坑，试过snap一条命令这种的安装，就一条apt-get snap install nextcloud，什么nginx，php啊，sql啊不存在的，一条命令搞定一切，但是装完问题太多了，然后也试过docker，这东西太难了，看不懂，所以我最后还是老老实实一步一步的的sql，php，apache2的搭起来了，借鉴的最多的应该是这个教程吧 <a href="https://www.getnas.com/2017/07/2655.html" target="_blank" rel="noopener">https://www.getnas.com/2017/07/2655.html</a><br>不过ssl我用的不是那里的，我是在腾讯云申请的ssl（不知道会不会有安全问题）<br>还是通过frp，把443端口映射出来，这样就可以通过公网同步了，页面是这样<a href="https://yun.meowdan.com/" target="_blank" rel="noopener">https://yun.meowdan.com/</a> ，也可以通过移动客户端或者桌面客户端去访问，这样就是一个只受限硬盘容量的私有云了。<br>不过搭完也不知道这东西对我来说到底有啥用。。。。。</p>
+<h2 id="4：nextcloud"><a href="#4：nextcloud" class="headerlink" title="4：nextcloud"></a>4：nextcloud</h2><p>试过seafile，不过功能来说nextcloud强太多了，seafile太简易了。安装的时候也踩过很多坑，试过snap一条命令这种的安装，就一条apt-get snap install nextcloud，什么nginx，php啊，sql啊不存在的，一条命令搞定一切，但是装完问题太多了，然后也试过docker，这东西太难了，看不懂，所以我最后还是老老实实一步一步的的sql，php，apache2的搭起来了，借鉴的最多的应该是这个教程吧 <a href="https://www.getnas.com/2017/07/2655.html" target="_blank" rel="noopener">https://www.getnas.com/2017/07/2655.html</a><br>不过ssl我用的不是那里的，我是在腾讯云申请的ssl（不知道会不会有安全问题）<br>还是通过frp，把443端口映射出来，这样就可以通过公网同步了，页面是这样<a href="https://yun.meowdan.com/" target="_blank" rel="noopener">https://yun.meowdan.com/</a> ，也可以通过移动客户端或者桌面客户端去访问，这样就是一个只受限硬盘容量的私有云了。<br>不过搭完也不知道这东西对我来说到底有啥用。。。。。(更新：已弃用</p>
 
       
     </div>
