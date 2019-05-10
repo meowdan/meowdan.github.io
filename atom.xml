@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.meowdan.com/"/>
-  <updated>2018-02-08T07:48:25.510Z</updated>
+  <updated>2018-02-08T07:48:25.000Z</updated>
   <id>http://blog.meowdan.com/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>HP GEN8 NAS搭建日记</title>
-    <link href="http://blog.meowdan.com/2018/20170915/"/>
-    <id>http://blog.meowdan.com/2018/20170915/</id>
-    <published>2018-02-08T07:48:25.538Z</published>
-    <updated>2018-02-08T07:48:25.510Z</updated>
+    <link href="http://blog.meowdan.com/2019/20170915/"/>
+    <id>http://blog.meowdan.com/2019/20170915/</id>
+    <published>2019-04-28T10:51:09.508Z</published>
+    <updated>2018-02-08T07:48:25.000Z</updated>
     
     <content type="html"><![CDATA[<p>GEN8买来折腾了也有一段时间了，对于现状还是很满意的，所以决定就保持目前这个状态，然后写一些东西记录自己踩过的坑。<br>没买gen8之前我买了个wd的nas，但是可折腾的东西太少了，可玩性太低了，所以才有了自己买server的想法，然后把那个wd nas上的红盘拆到gen8里当仓库盘。gen8的话用的原配的cpu+8G内存，还买了个SSD当系统盘，然后装系统的时候发现了gen8存在一个很傻逼的问题就是不能选择用哪个硬盘引导，只能是默认的SATA1-SATA5顺序寻找硬盘引导，而SSD只能装在SATA5，存储盘只能装在SATA1-4，所以系统会去找那块红盘上的系统，红盘没系统的话就进不去，真的好傻逼。没办法，网上搜了下我按照 <a href="https://www.chiphell.com/thread-1196090-1-1.html" target="_blank" rel="noopener">https://www.chiphell.com/thread-1196090-1-1.html</a> 这里的方法用u盘做了个引导了。（64G的U盘废在那了）</p><a id="more"></a><h2 id="1-系统的选择-winserver2016-hyper-v-ubuntu-server"><a href="#1-系统的选择-winserver2016-hyper-v-ubuntu-server" class="headerlink" title="1 系统的选择 winserver2016+hyper-v+ubuntu server"></a>1 系统的选择 winserver2016+hyper-v+ubuntu server</h2><p>最开始选择的是esxi6.5，然后基于这个上面去搭winserver2016和其他系统的，后来觉得不行，我对ext4的文件系统不太熟悉，gen8默认的cpu也不支持硬盘直通虚拟盘（好像不支持我网上看到的），所以后来还是老老实实裸装了winserver2016了，然后用hyper-v，最开始装黑裙6.0，然后发现这东西不稳定，升级又不好升，还是放弃了，然后是freenas，这东西系统内存要求太高了，官方建议8G以上内存，装了下发现也没啥新奇的，然后是openmediavault，这个装了几天发现也是不稳定，好几次卡在重启，然后自带的那个web的nas系统也就那样也没有很新奇的功能啊，然后我就直接装了个ubuntu server 16.04了，不需要黑裙或者omv或者freenas带的那些莫名其妙的功能了，反正都可以在ubuntu server上搭出来。</p><h2 id="2-frp"><a href="#2-frp" class="headerlink" title="2.frp"></a>2.frp</h2><p>frp是在你没有公网ip的情况下做公网地址的端口映射了，当然前提是你有一台公网ip的vps之类的，我用的是gce，服务端和客户端都是ubuntu server，按照 <a href="https://segmentfault.com/a/1190000009353002" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009353002</a> 这个教程搭起来的。<br>透过frp的公网穿透，把winserver的3389端口和ubuntu server的ssh映射出来，就可以在公司访问家里的gen8了，而且gce速度快延时低，公网用3389访问回去都不卡。<br>有一个以后要考虑的问题就是gce按流量收费的，但是我搭了nextcloud，同步的所有流量应该都会经过gce的，这流量就有点大了吧，等免费1年用完看看要换的话应该会换vultr东京机房vps了。</p><h2 id="3：aria2"><a href="#3：aria2" class="headerlink" title="3：aria2"></a>3：aria2</h2><p>aria2+frp把6800端口映射到公网，就可以实现在公司下载好电影回家就可以看了（虽然我也这么搭了不过我一般都是通过3389远程到winser里然后用迅雷下载）</p><pre><code>dir=/home/meowdan/downloaddisable-ipv6=trueenable-rpc=truerpc-allow-origin-all=truerpc-listen-all=true#rpc-listen-port=6800rpc-secret=#################continue=trueinput-file=/etc/aria2/aria2.sessionsave-session=/etc/aria2/aria2.sessionmax-concurrent-downloads=3file-allocation=nonemax-connection-per-server=5min-split-size=10Msplit=20disable-ipv6=truelisten-port=51413enable-dht=trueenable-peer-exchange=truepeer-id-prefix=-TR2770-user-agent=Transmission/2.77seed-ratio=0.1bt-save-metadata=falsebt-seed-unverified=true</code></pre><p>以上是我aria2的配置文件，由于映射到公网，所以rpc-secret是必须的，然后通过本地的webui-aria2文件配置ip和secret信息就可以连接上了，还有一种方法就是把webui-aria2用nginx或者apache2也搭到ubuntu里去，然后通过frp用域名+端口号就能打开了，但是我nginx或者apache2都写的不好，所以只能这么用了。</p><h2 id="4：nextcloud"><a href="#4：nextcloud" class="headerlink" title="4：nextcloud"></a>4：nextcloud</h2><p>试过seafile，不过功能来说nextcloud强太多了，seafile太简易了。安装的时候也踩过很多坑，试过snap一条命令这种的安装，就一条apt-get snap install nextcloud，什么nginx，php啊，sql啊不存在的，一条命令搞定一切，但是装完问题太多了，然后也试过docker，这东西太难了，看不懂，所以我最后还是老老实实一步一步的的sql，php，apache2的搭起来了，借鉴的最多的应该是这个教程吧 <a href="https://www.getnas.com/2017/07/2655.html" target="_blank" rel="noopener">https://www.getnas.com/2017/07/2655.html</a><br>不过ssl我用的不是那里的，我是在腾讯云申请的ssl（不知道会不会有安全问题）<br>还是通过frp，把443端口映射出来，这样就可以通过公网同步了，页面是这样<a href="https://yun.meowdan.com/" target="_blank" rel="noopener">https://yun.meowdan.com/</a> ，也可以通过移动客户端或者桌面客户端去访问，这样就是一个只受限硬盘容量的私有云了。<br>不过搭完也不知道这东西对我来说到底有啥用。。。。。(更新：已弃用</p>]]></content>
     
@@ -36,9 +36,9 @@
   
   <entry>
     <title>为什么一到年底大家都在写总结啊</title>
-    <link href="http://blog.meowdan.com/2018/0104/"/>
-    <id>http://blog.meowdan.com/2018/0104/</id>
-    <published>2018-02-07T19:45:56.804Z</published>
+    <link href="http://blog.meowdan.com/2019/0104/"/>
+    <id>http://blog.meowdan.com/2019/0104/</id>
+    <published>2019-04-28T10:47:26.916Z</published>
     <updated>2017-01-04T07:30:03.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>—为什么一到年底大家都在写总结啊<br>—可是明明已经17年初了啊<br>— = = 那么，没办法啊，拖延症患者，所以这只是一个拖延症患者的年终总结<br>可是，我还是不懂啊，为什么一到年底大家都在写总结啊。。。（不懂你还写。<br> 不过，你看看你blog这么久没更新了，都要长草了，好不容易能整出点幺蛾子，能找点东西写，也算是为这悲剧的一年画个句号吧。<br><a id="more"></a></p><h2 id="关于感情"><a href="#关于感情" class="headerlink" title="关于感情"></a>关于感情</h2><p>16年最悲伤的事就是我分手啦，然而那时候我还觉得自己长的这么好看再找一个女朋友还不是分分钟，然而事实很伤人，一点机会都没有出现，好难啊。<br>然而，年纪越来越大了，也越来越没以前那么好看了，主要是还越来越不爱理人了，我觉得新的一年也不会有什么希望了，对于现在的我来说，女朋友这种生物已经不敢奢望了。<br>更惨更惨的是，过年回去又得面对奶奶和家里人的一顿数落，想狗带。。。</p><h2 id="关于工作"><a href="#关于工作" class="headerlink" title="关于工作"></a>关于工作</h2><p>16年初升职加薪啦，然而，16年公司长的好看的妹子全辞职了，跟我关系好的几个同事也基本辞职了，这破公司基本乙烷，我在想我是不是也辞职了。<br>刚好有一家甲方想让我去，其实这家甲方之前就说过了只是那时候我不想走就没搭理，这次又说了我就回他们说年后回来再说吧。<br>然后我去查了下发现这家甲方好厉害16年全国互联网公司排名前20，我一直以为他们家没什么名气的，我咋就，这么把自己当回事呢 - - 可以反悔吗我想马上就谈。<br>17年就希望换工作可以顺利吧，现在换工作也不想考虑能不能学到什么东西，能不能进步之类的了，就想拿很多很多钱，当一条咸鱼。</p><h2 id="关于猫"><a href="#关于猫" class="headerlink" title="关于猫"></a>关于猫</h2><p>15年的时候从同事那里领了一只猫然而15年底回老家把他寄养在朋友那里然后走丢了，不过那只猫很凶，当流浪猫也不会被欺负的吧- -<br>本来是暂时不考虑再养猫了，然后我一个朋友那时候在一个宠物店上班，然后有多的流浪猫问我要不要，然后我，就又养了，到现在差不多有1岁啦,现在他长这样，就差一点点就比我帅啦。<br><img src="http://od0dfu8av.bkt.clouddn.com/mao.jpg" alt=""><br>这只猫虽然也还是很凶，但是没之前那只那么凶，而且经常喜欢呆冰箱上，所以有那么点高冷，不过咬人的时候一点也不含糊，而且及其怕生。<br>有一次我朋友去我家玩然后他问我：你家不是有养猫吗，猫呢？？<br>我：你一来他就躲床底瑟瑟发抖了，在你走之前他是不会出来的了。</p><h2 id="关于其他"><a href="#关于其他" class="headerlink" title="关于其他"></a>关于其他</h2><p>16年都没去哪里玩了，因为真的好穷，今年好穷，穷是因为败的电子产品太多了，XPS13，PC（上一篇文章说到的），sony a6000+35mm定焦头，VSD5+UE900S（买了VSD5又嫌弃然后又买了个UE900S），还有steam上败的一大堆游戏，然后零零散散的一堆配件，xbox手柄，nas之类的，哪还有钱去玩啊。<br>然后又因为沉迷游戏，电影和书都没怎么看了，差不多是颗废蛋了 = =</p><h2 id="关于2017"><a href="#关于2017" class="headerlink" title="关于2017"></a>关于2017</h2><p>女朋友已经不敢奢望了，只希望换工作能顺利，能赚很多很多钱，然后去玩，也希望大家能够得偿所愿吧。</p>]]></content>
